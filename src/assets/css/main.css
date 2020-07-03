@@ -78,6 +78,18 @@ h4 {
   color: #c51abb;
   border: 2px solid #c51abb;
 }
+.mess {
+  font-size: 20px;
+  color: red;
+  text-align: center;
+  padding: 20px;
+  padding-bottom: 60px;
+}
+.paints {
+  transition: 1s;
+}
+  
+
 .button-transparent:before {
   content: '';
   background: url("../img/camera.svg") no-repeat center;
