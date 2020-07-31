@@ -1,6 +1,20 @@
-const accordion = (triggerSelector, blokcSelector) => {
-    const triggers = document.querySelectorAll(triggerSelector),
-        blocks = document.querySelectorAll(blokcSelector);
+const accordion = (triggerSelector) => {
+    const triggers = document.querySelectorAll(triggerSelector);
+
+    triggers.forEach(btn => {
+        btn.addEventListener('click', function () {
+            this.classList.toggle("active-style");
+            this.nextElementSibling.classList.toggle('active-content');
+
+            if (this.classList.contains('active-style')) {
+                this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + 'px';
+            } else {
+                this.nextElementSibling.style.maxHeight = '0px';
+            }
+        });
+    });
+
+/*         blocks = document.querySelectorAll(blokcSelector);
 
     blocks.forEach(block => {
         block.classList.add('animated', 'fadeInDown');
@@ -15,7 +29,7 @@ const accordion = (triggerSelector, blokcSelector) => {
                 this.classList.add('active', 'active-style');
             }
         });
-    });
+    }); */
 
 };
 
