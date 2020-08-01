@@ -50,7 +50,7 @@ const sliders = (slides, diraction, prev, next) => {
             paused = setInterval(function() {
                 changeSlides(1);
                 items[slideIndex - 1].classList.add('slideInUp');
-            }, 3000);
+            }, 5000);
         } else {
             paused = setInterval(function() {
                 changeSlides(1);

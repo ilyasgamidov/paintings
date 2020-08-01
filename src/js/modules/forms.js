@@ -1,17 +1,14 @@
 import {postData} from '../services/requests';
 
 const forms = () => {
-
     const form = document.querySelectorAll('form'),
-        input = document.querySelectorAll('input'),
-        upload = document.querySelectorAll('[name="upload"]');
-        
-        // checkInputNumberOrNo('input[name="user_phone"');/
-
+          inputs = document.querySelectorAll('input'),
+          upload = document.querySelectorAll('[name="upload"]');
+    
     const message = {
-        load: 'Загрузка...',
-        success: 'Сообщение отправлено',
-        err: 'Упс, что-то не так...',
+        loading: 'Загрузка...',
+        success: 'Спасибо! Скоро мы с вами свяжемся',
+        failure: 'Что-то пошло не так...',
         spinner: 'assets/img/spinner.gif',
         ok: 'assets/img/ok.png',
         fail: 'assets/img/fail.png'
@@ -19,34 +16,28 @@ const forms = () => {
 
     const path = {
         designer: 'assets/server.php',
-        question: 'assets/question.php',
+        question: 'assets/question.php'
     };
 
-
     const clearInputs = () => {
-        input.forEach(item => {
+        inputs.forEach(item => {
             item.value = '';
         });
-
         upload.forEach(item => {
-            item.previousElementSibling.textContent = 'Файл не выбран';
+            item.previousElementSibling.textContent = "Файл не выбран";
         });
     };
 
     upload.forEach(item => {
         item.addEventListener('input', () => {
             console.log(item.files[0]);
-
             let dots;
             const arr = item.files[0].name.split('.');
-            arr[0].length > 5 ? dots = '...' : dots = '.';
-            const name = arr[0].slice(0, 5) + dots + arr[1];
+
+            arr[0].length > 6 ? dots = "..." : dots = '.';
+            const name = arr[0].substring(0, 6) + dots + arr[1];
             item.previousElementSibling.textContent = name;
         });
-    });
-
-    upload.forEach(item => {
-
     });
 
     form.forEach(item => {
@@ -57,18 +48,16 @@ const forms = () => {
             statusMessage.classList.add('status');
             item.parentNode.appendChild(statusMessage);
 
-            item.classList.add('animated', 'fadeOutUp');
             setTimeout(() => {
                 item.style.display = 'none';
             }, 400);
 
             let statusImg = document.createElement('img');
             statusImg.setAttribute('src', message.spinner);
-            statusImg.classList.add('animated', 'fadeIntUp');
             statusMessage.appendChild(statusImg);
 
             let textMessage = document.createElement('div');
-            textMessage.textContent = message.load;
+            textMessage.textContent = message.loading;
             statusMessage.appendChild(textMessage);
 
             const formData = new FormData(item);
@@ -76,16 +65,15 @@ const forms = () => {
             item.closest('.popup-design') || item.classList.contains('calc_form') ? api = path.designer : api = path.question;
             console.log(api);
 
-
             postData(api, formData)
-                .then(result => {
-                    console.log(result);
+                .then(res => {
+                    console.log(res);
                     statusImg.setAttribute('src', message.ok);
                     textMessage.textContent = message.success;
                 })
                 .catch(() => {
-                    textMessage.textContent = message.err;
                     statusImg.setAttribute('src', message.fail);
+                    textMessage.textContent = message.failure;
                 })
                 .finally(() => {
                     clearInputs();
@@ -96,10 +84,8 @@ const forms = () => {
                         item.classList.add('fadeInUp');
                     }, 5000);
                 });
-            
         });
     });
-
 };
 
 export default forms;
